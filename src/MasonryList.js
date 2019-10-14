@@ -522,6 +522,28 @@ export default class MasonryList extends React.PureComponent {
 	}
 
 	render() {
+    // Need to clean sorted data to prevent duplicate images, with an _id property
+    let dataToRender = [];
+
+    let ids = [];
+    this.state._sortedData.forEach((column) => {
+      const elements = [];
+      const cleaned = column.slice();
+      cleaned.forEach((it) => {
+        if (!ids.includes(it._id)) {
+          // If script cannot determinate image width, let set it by ourselfs
+          if (it.masonryDimensions.width === 0) {
+            it.masonryDimensions.width = it.dimensions.width / 11;
+            it.masonryDimensions.height = it.dimensions.height / 11;
+          }
+
+          elements.push(it)
+          ids.push(it._id);
+        }
+      })
+      dataToRender.push(elements);
+    })
+
 		return (
 			<FlatList
 				style={{
@@ -545,7 +567,7 @@ export default class MasonryList extends React.PureComponent {
 				keyExtractor={(item, index) => {
 					return "COLUMN-" + index.toString() + "/"; // + (this.props.columns - 1);
 				}}
-				data={this.state._sortedData}
+				data={dataToRender}
 				renderItem={({ item, index }) => {
 					return (
 						<Column
