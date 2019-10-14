@@ -533,8 +533,8 @@ export default class MasonryList extends React.PureComponent {
         if (!ids.includes(it._id)) {
           // If script cannot determinate image width, let set it by ourselfs
           if (it.masonryDimensions.width === 0) {
-            it.masonryDimensions.width = it.dimensions.width / 11;
-            it.masonryDimensions.height = it.dimensions.height / 11;
+            it.masonryDimensions.width = it.dimensions.width / 9;
+            it.masonryDimensions.height = it.dimensions.height / 9;
           }
 
           elements.push(it)
